@@ -1,0 +1,42 @@
+﻿<Window x:Class="oop_4.RoomWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Приміщення" Height="500" Width="500">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Номер приміщення:" FontStyle="Italic" FontSize="13"/>
+            <TextBox x:Name="NumberTextBox" FontStyle="Italic" FontSize="13"/>
+
+            <TextBlock Text="Розмір приміщення:" Margin="0,10,0,0" FontStyle="Italic" FontSize="13"/>
+            <TextBox x:Name="SizeTextBox" FontStyle="Italic" FontSize="13"/>
+
+            <TextBlock Text="Вартість прибирання приміщення:" Margin="0,10,0,0" FontStyle="Italic" FontSize="13"/>
+            <TextBox x:Name="CostTextBox" FontStyle="Italic" FontSize="13"/>
+
+            <TextBlock Text="Тип приміщення:" Margin="0,10,0,0" FontStyle="Italic" FontSize="13"/>
+            <ComboBox x:Name="RoomTypeComboBox" FontStyle="Italic" FontSize="13"/>
+
+            <TextBlock Text="Тварини:" Margin="0,10,0,0" FontStyle="Italic" FontSize="13"/>
+            <ListBox x:Name="AnimalListBox" Height="150" Margin="0,10,0,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Animal.Name}" Margin="5,0"/>
+                            <TextBlock Text=" — " />
+                            <TextBlock Text="{Binding Price}" Margin="5,0"/>
+                            <TextBlock Text="₴ on" Margin="5,0"/>
+                            <TextBlock Text="{Binding Date, StringFormat=\{0:dd.MM.yyyy\}}" Margin="5,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button Content="Добавити тварину" Click="AddAnimal_Click" Margin="0,10,0,0" FontStyle="Italic" FontSize="13"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                <Button Content="OK" Width="80" Margin="5" Click="OkButton_Click" FontStyle="Italic" FontSize="13"/>
+                <Button Content="Скасувати" Width="80" Margin="5" Click="CancelButton_Click" FontStyle="Italic" FontSize="13"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

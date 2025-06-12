@@ -1,0 +1,39 @@
+﻿using System;
+using Model;
+namespace Model
+{
+    public class Rooms
+    {
+        public RoomType Room { get; set; }
+        public int Number { get; set; }
+        public int Size { get; set; }
+        public int Cost { get; set; }
+        public List<AccountingUnit> Info { get; set; }
+
+        public Rooms(RoomType room, int number, int size, int cost, List<AccountingUnit> info)
+        {
+            if (number < 0 || size < 0 || cost < 0)
+                throw new ArgumentException("Invalid room data");
+
+            Room = room;
+            Number = number;
+            Size = size;
+            Cost = cost;
+            Info = info;
+        }
+        public void AddAnimal(AccountingUnit infos)
+        {
+            Info.Add(infos);
+        }
+        public string ToShortString()
+        {
+            int totalCost = 0;
+            foreach (var unit in Info)
+            {
+                totalCost += unit.Price;
+            }
+            return $"Room #{Number}: Total Maintenance Cost = {totalCost}";
+        }
+        public override string ToString() => $"Кімната №{Number}({Room}) — Розмір: {Size}, Прибирання коштує: {Cost}₴, Тварина: {Info.Count}";
+    }
+}
