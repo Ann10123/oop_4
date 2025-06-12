@@ -43,6 +43,7 @@ namespace oop_4
             SizeTextBox.Text = _room.Size.ToString();
             CostTextBox.Text = _room.Cost.ToString();
             AnimalListBox.ItemsSource = _room.Info;
+            this.DataContext = _room;
         }
 
         private void AddAnimal_Click(object sender, RoutedEventArgs e)

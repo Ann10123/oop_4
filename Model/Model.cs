@@ -34,6 +34,12 @@ namespace Model
             }
             return $"Room #{Number}: Total Maintenance Cost = {totalCost}";
         }
-        public override string ToString() => $"Кімната №{Number}({Room}) — Розмір: {Size}, Прибирання коштує: {Cost}₴, Тварина: {Info.Count}";
+        public override string ToString()
+        {
+            // Створюємо рядок з імен тварин через кому
+            string animalNames = Info.Count == 0 ? "немає" : string.Join(", ", Info.Select(a => a.Animal.Name));
+
+            return $"Кімната №{Number}({Room}) — Розмір: {Size}, Прибирання коштує: {Cost}₴, Тварини: {animalNames}";
+        }
     }
 }

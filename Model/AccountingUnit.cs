@@ -10,6 +10,7 @@ namespace Model
     [Serializable]
     public class AccountingUnit
     {
+        public string Name { get; set; }
         public Animal Animal { get; set; }
         public DateTime Date { get; set; }
         public int Price { get; set; }
@@ -21,6 +22,7 @@ namespace Model
             if (date > DateTime.Now)
                 throw new ArgumentException("Date of arrival can't be in the future.");
 
+            Name= animal.Name;
             Animal = animal;
             Date = date;
             Price = price;

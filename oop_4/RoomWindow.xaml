@@ -17,7 +17,7 @@
             <ComboBox x:Name="RoomTypeComboBox" FontStyle="Italic" FontSize="13"/>
 
             <TextBlock Text="Тварини:" Margin="0,10,0,0" FontStyle="Italic" FontSize="13"/>
-            <ListBox x:Name="AnimalListBox" Height="150" Margin="0,10,0,0">
+            <ListBox x:Name="AnimalListBox" Height="150" Margin="0,10,0,0" ItemsSource="{Binding Info}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
