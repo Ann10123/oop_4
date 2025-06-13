@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using Model;
 namespace Model
 {
@@ -10,6 +11,11 @@ namespace Model
         public int Cost { get; set; }
         public List<AccountingUnit> Info { get; set; }
 
+        [JsonConstructor]
+        public Rooms()
+        {
+            Info = new List<AccountingUnit>();
+        }
         public Rooms(RoomType room, int number, int size, int cost, List<AccountingUnit> info)
         {
             if (number < 0 || size < 0 || cost < 0)
@@ -21,6 +27,7 @@ namespace Model
             Cost = cost;
             Info = info;
         }
+
         public void AddAnimal(AccountingUnit infos)
         {
             Info.Add(infos);

@@ -22,13 +22,13 @@ namespace oop_4
     {
         public Rooms Room { get; private set; }
         private Rooms _room;
-
+        public Rooms EditedRoom => _room;
         public RoomWindow()
         {
             InitializeComponent();
             RoomTypeComboBox.ItemsSource = Enum.GetValues(typeof(RoomType));
             // Створюємо новий об'єкт Rooms з порожнім списком тварин
-            _room = new Rooms(RoomType.Клітка, 0, 0, 0, new List<AccountingUnit>());
+            _room = new Rooms();
             AnimalListBox.ItemsSource = _room.Info;
         }
 
@@ -43,7 +43,7 @@ namespace oop_4
             SizeTextBox.Text = _room.Size.ToString();
             CostTextBox.Text = _room.Cost.ToString();
             AnimalListBox.ItemsSource = _room.Info;
-            this.DataContext = _room;
+            DataContext = _room;
         }
 
         private void AddAnimal_Click(object sender, RoutedEventArgs e)

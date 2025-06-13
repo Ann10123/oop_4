@@ -4,12 +4,15 @@ using System.Windows;
 using System;
 using Model;
 using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace oop_4
 {
     public partial class MainWindow : Window
     {
         private List<Rooms> rooms;
+        public ObservableCollection<Animal> AllAnimals { get; } = new ObservableCollection<Animal>();
 
         public MainWindow()
         {
@@ -20,10 +23,30 @@ namespace oop_4
 
         private void AddRoom_Click(object sender, RoutedEventArgs e)
         {
-            var window = new RoomWindow();
-            if (window.ShowDialog() == true)
+            Rooms tempRoom = new Rooms();
+            bool isValid;
+
+            do
             {
-                rooms.Add(window.Room);
+                var window = new RoomWindow(tempRoom); 
+                isValid = window.ShowDialog() == true;
+
+                if (!isValid)
+                    break;
+
+                tempRoom = window.Room;
+
+                if (rooms.Any(r => r.Number == tempRoom.Number))
+                {
+                    MessageBox.Show($"Кімната №{tempRoom.Number} вже існує!", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    isValid = false;
+                }
+            }
+            while (!isValid);
+
+            if (isValid)
+            {
+                rooms.Add(tempRoom);
                 RefreshList();
             }
         }

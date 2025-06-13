@@ -1,7 +1,7 @@
 ﻿<Window x:Class="oop_4.RoomWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Приміщення" Height="500" Width="500">
+        Title="Приміщення" Height="500" Width="500" FontStyle="Italic" FontSize="13">
     <Grid Margin="10">
         <StackPanel>
             <TextBlock Text="Номер приміщення:" FontStyle="Italic" FontSize="13"/>

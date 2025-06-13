@@ -27,6 +27,6 @@ namespace Model
             Date = date;
             Price = price;
         }
-        public override string ToString() => $"{Animal} — {Price}₴ on {Date.ToShortDateString()}";
+        public override string ToString() => $"{Animal} — {Price}₴ on {Date}";
     }
 }
