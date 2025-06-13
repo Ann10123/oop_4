@@ -27,7 +27,15 @@ namespace Model
             Cost = cost;
             Info = info;
         }
-
+        public string AnimalNames
+        {
+            get
+            {
+                if (Info == null || Info.Count == 0)
+                    return "";
+                return string.Join(", ", Info.Select(a => a.Animal?.Name ?? "Без імені"));
+            }
+        }
         public void AddAnimal(AccountingUnit infos)
         {
             Info.Add(infos);
@@ -43,7 +51,6 @@ namespace Model
         }
         public override string ToString()
         {
-            // Створюємо рядок з імен тварин через кому
             string animalNames = Info.Count == 0 ? "немає" : string.Join(", ", Info.Select(a => a.Animal.Name));
 
             return $"Кімната №{Number}({Room}) — Розмір: {Size}, Прибирання коштує: {Cost}₴, Тварини: {animalNames}";

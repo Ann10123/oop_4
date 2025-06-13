@@ -31,24 +31,32 @@ namespace oop_4
             NumberTextBox.Text = "";
             SizeTextBox.Text = "";
             CostTextBox.Text = "";
-            // Створюємо новий об'єкт Rooms з порожнім списком тварин
 
             _room = new Rooms();
             AnimalListBox.ItemsSource = _room.Info;
-        }
 
+            EditAnimal.IsEnabled = false; 
+
+            AnimalListBox.SelectionChanged += AnimalListBox_SelectionChanged; 
+        }
         public RoomWindow(Rooms roomToEdit)
         {
             InitializeComponent();
-            AnimalListBox.SelectionChanged += AnimalListBox_SelectionChanged;
-            _room = roomToEdit;
             RoomTypeComboBox.ItemsSource = Enum.GetValues(typeof(RoomType));
+            _room = roomToEdit ?? new Rooms();
+
             RoomTypeComboBox.SelectedItem = _room.Room;
 
-            NumberTextBox.Text = _room.Number.ToString();
-            SizeTextBox.Text = _room.Size.ToString();
-            CostTextBox.Text = _room.Cost.ToString();
+            NumberTextBox.Text = _room.Number == 0 ? "" : _room.Number.ToString();
+            SizeTextBox.Text = _room.Size == 0 ? "" : _room.Size.ToString();
+            CostTextBox.Text = _room.Cost == 0 ? "" : _room.Cost.ToString();
+
             AnimalListBox.ItemsSource = _room.Info;
+
+            EditAnimal.IsEnabled = false;
+
+            AnimalListBox.SelectionChanged += AnimalListBox_SelectionChanged; 
+
             DataContext = _room;
         }
 
@@ -57,10 +65,8 @@ namespace oop_4
             var animalWindow = new AccountingUnitWindow();
             if (animalWindow.ShowDialog() == true)
             {
-                // Додаємо тварину безпосередньо у _room.Info
                 _room.Info.Add(animalWindow.Unit);
 
-                // Оновлюємо ItemsSource, щоб перелік відобразився
                 AnimalListBox.ItemsSource = null;
                 AnimalListBox.ItemsSource = _room.Info;
             }
@@ -73,11 +79,11 @@ namespace oop_4
         {
             if (AnimalListBox.SelectedItem is AccountingUnit selectedUnit)
             {
-                var editWindow = new AccountingUnitWindow(selectedUnit); // передаємо існуючу тварину
+                var editWindow = new AccountingUnitWindow(selectedUnit); 
 
                 if (editWindow.ShowDialog() == true)
                 {
-                    // Оновлюємо тварину
+
                     selectedUnit.Animal = editWindow.Unit.Animal;
                     selectedUnit.Name = editWindow.Unit.Animal.Name;
                     selectedUnit.Price = editWindow.Unit.Price;
@@ -96,7 +102,7 @@ namespace oop_4
             _room.Size = int.Parse(SizeTextBox.Text);
             _room.Cost = int.Parse(CostTextBox.Text);
 
-            Room = _room; // Передаємо оновлений об'єкт назовні
+            Room = _room; 
 
             DialogResult = true;
         }
@@ -104,6 +110,70 @@ namespace oop_4
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+        }
+        private bool IsTextValid(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return true; 
+
+            if (text.StartsWith(","))
+                return false; 
+
+            int commaCount = text.Count(c => c == ',');
+            if (commaCount > 1)
+                return false; 
+
+            foreach (char c in text)
+            {
+                if (!char.IsDigit(c) && c != ',')
+                    return false; 
+            }
+
+            return true;
+        }
+        private void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox == null)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            int selectionStart = textBox.SelectionStart;
+            int selectionLength = textBox.SelectionLength;
+
+            string newText = textBox.Text.Remove(selectionStart, selectionLength);
+            newText = newText.Insert(selectionStart, e.Text);
+
+            e.Handled = !IsTextValid(newText);
+        }
+        private void TextBox_Pasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(string)))
+            {
+                var pasteText = (string)e.DataObject.GetData(typeof(string));
+                var textBox = sender as TextBox;
+
+                if (textBox == null)
+                {
+                    e.CancelCommand();
+                    return;
+                }
+
+                int selectionStart = textBox.SelectionStart;
+                int selectionLength = textBox.SelectionLength;
+
+                string newText = textBox.Text.Remove(selectionStart, selectionLength);
+                newText = newText.Insert(selectionStart, pasteText);
+
+                if (!IsTextValid(newText))
+                    e.CancelCommand();
+            }
+            else
+            {
+                e.CancelCommand();
+            }
         }
     }
 }
