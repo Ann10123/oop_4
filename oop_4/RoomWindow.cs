@@ -22,12 +22,17 @@ namespace oop_4
     {
         public Rooms Room { get; private set; }
         private Rooms _room;
-        public Rooms EditedRoom => _room;
         public RoomWindow()
         {
             InitializeComponent();
+
             RoomTypeComboBox.ItemsSource = Enum.GetValues(typeof(RoomType));
+            RoomTypeComboBox.SelectedIndex = -1;
+            NumberTextBox.Text = "";
+            SizeTextBox.Text = "";
+            CostTextBox.Text = "";
             // Створюємо новий об'єкт Rooms з порожнім списком тварин
+
             _room = new Rooms();
             AnimalListBox.ItemsSource = _room.Info;
         }
@@ -35,6 +40,7 @@ namespace oop_4
         public RoomWindow(Rooms roomToEdit)
         {
             InitializeComponent();
+            AnimalListBox.SelectionChanged += AnimalListBox_SelectionChanged;
             _room = roomToEdit;
             RoomTypeComboBox.ItemsSource = Enum.GetValues(typeof(RoomType));
             RoomTypeComboBox.SelectedItem = _room.Room;
@@ -57,6 +63,29 @@ namespace oop_4
                 // Оновлюємо ItemsSource, щоб перелік відобразився
                 AnimalListBox.ItemsSource = null;
                 AnimalListBox.ItemsSource = _room.Info;
+            }
+        }
+        private void AnimalListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EditAnimal.IsEnabled = AnimalListBox.SelectedItem != null;
+        }
+        private void EditAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            if (AnimalListBox.SelectedItem is AccountingUnit selectedUnit)
+            {
+                var editWindow = new AccountingUnitWindow(selectedUnit); // передаємо існуючу тварину
+
+                if (editWindow.ShowDialog() == true)
+                {
+                    // Оновлюємо тварину
+                    selectedUnit.Animal = editWindow.Unit.Animal;
+                    selectedUnit.Name = editWindow.Unit.Animal.Name;
+                    selectedUnit.Price = editWindow.Unit.Price;
+                    selectedUnit.Date = editWindow.Unit.Date;
+
+                    AnimalListBox.ItemsSource = null;
+                    AnimalListBox.ItemsSource = _room.Info;
+                }
             }
         }
 

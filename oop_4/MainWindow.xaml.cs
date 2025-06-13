@@ -11,7 +11,7 @@ namespace oop_4
 {
     public partial class MainWindow : Window
     {
-        private List<Rooms> rooms;
+        private List<Model.Rooms> rooms;
         public ObservableCollection<Animal> AllAnimals { get; } = new ObservableCollection<Animal>();
 
         public MainWindow()
@@ -23,12 +23,13 @@ namespace oop_4
 
         private void AddRoom_Click(object sender, RoutedEventArgs e)
         {
-            Rooms tempRoom = new Rooms();
+            Rooms tempRoom = null;
             bool isValid;
 
             do
             {
-                var window = new RoomWindow(tempRoom); 
+                tempRoom = new Rooms(); // створюємо новий об'єкт кожного разу
+                var window = new RoomWindow(tempRoom);
                 isValid = window.ShowDialog() == true;
 
                 if (!isValid)
@@ -50,6 +51,7 @@ namespace oop_4
                 RefreshList();
             }
         }
+
 
         private void EditRoom_Click(object sender, RoutedEventArgs e)
         {

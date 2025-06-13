@@ -22,10 +22,10 @@ namespace Model
             if (birthday > DateTime.Now)
                 throw new ArgumentException("Birthday can't be in the future."); 
 
-            this.View = view;
-            this.Name = name;
-            this.Country = country;
-            this.Birthday = birthday;
+            View = view;
+            Name = name;
+            Country = country;
+            Birthday = birthday;
         }
         public override string ToString() => $"{Name} ({View}, {Country})";
     }

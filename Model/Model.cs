@@ -5,10 +5,10 @@ namespace Model
 {
     public class Rooms
     {
-        public RoomType Room { get; set; }
-        public int Number { get; set; }
-        public int Size { get; set; }
-        public int Cost { get; set; }
+        public RoomType? Room { get; set; }
+        public int? Number { get; set; }
+        public int? Size { get; set; }
+        public int? Cost { get; set; }
         public List<AccountingUnit> Info { get; set; }
 
         [JsonConstructor]

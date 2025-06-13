@@ -15,6 +15,20 @@ namespace oop_4
             BirthdayPicker.SelectedDate = DateTime.Now.AddYears(-1);
             ArrivalPicker.SelectedDate = DateTime.Now;
         }
+        public AccountingUnitWindow(AccountingUnit unitToEdit)
+        {
+            InitializeComponent();
+
+            // Заповнення полів існуючими даними
+            NameBox.Text = unitToEdit.Animal.Name;
+            ViewBox.Text = unitToEdit.Animal.View;
+            CountryBox.Text = unitToEdit.Animal.Country;
+            BirthdayPicker.SelectedDate = unitToEdit.Animal.Birthday;
+            ArrivalPicker.SelectedDate = unitToEdit.Date;
+            PriceBox.Text = unitToEdit.Price.ToString();
+
+            Unit = unitToEdit;
+        }
 
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
